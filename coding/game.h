@@ -5,6 +5,8 @@
 #include <iostream>
 #include <ctime>
 
+#include "Player.h"
+
 class Game
 {
     public:
@@ -17,6 +19,9 @@ class Game
         //Setters
 
         //Functions
+        const bool running();
+        void pollEvents();
+
         void update();
         void render();
 
@@ -24,6 +29,9 @@ class Game
         sf::VideoMode videoMode;
         sf::RenderWindow* window;
         bool endGame;
+        sf::Event sfmlEvent;
+
+        Player player;
 
         //private Functions
         void initWindow();
