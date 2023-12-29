@@ -29,8 +29,12 @@ void Game::initText()
     this->guiText.setFont(this->font);
     this->guiText.setFillColor(sf::Color::White);
     this->guiText.setCharacterSize(30);
-    this->guiText.setString("test"); 
 
+    this->endGameText.setFont(this->font);
+    this->endGameText.setFillColor(sf::Color::Red);
+    this->endGameText.setCharacterSize(40);
+    this->endGameText.setPosition(sf::Vector2f(50.f, 300.f));
+    this->endGameText.setString("GAME OVER");
 }
 
 
@@ -47,6 +51,11 @@ Game::~Game()
 {
     delete this->window;
 
+}
+
+const bool& Game::getEndGame() const
+{
+    return this->endGame;
 }
 
 //Functions
@@ -81,9 +90,29 @@ void Game::spawnSwagBalls()
         {
             this->spawnTimer = 0.f;
             //Picks from the enumerated list in SwagBallTypes, NROFTYPEs just gives you the number of types available
-            this->swagBall_list.push_back(SwagBalls(*this->window, rand()%SwagBallTypes::NROFTYPEs));
+            this->swagBall_list.push_back(SwagBalls(*this->window, this->randomizeType()));
         }
     }
+}
+
+//Implemented in order to make the ball spawning a little less randomized, so we have a little more control
+const int Game::randomizeType() const
+{
+    int type = SwagBallTypes::DEFAULT;
+    int randValue = rand() % 100 + 1;
+    if(randValue > 60 && randValue <= 80)
+        type = SwagBallTypes::DAMAGING;
+    else if(randValue > 80 && randValue <= 100)
+        type = SwagBallTypes::HEALING;
+
+    return type;
+}
+
+void Game::updatePlayer()
+{
+    this->player.update(this->window);
+    if(this->player.getHp() <= 0)
+        this->endGame = true;
 }
 
 void Game::updateCollision()
@@ -126,11 +155,13 @@ void Game::update()
 {
     this->pollEvents();
 
-
-    this->spawnSwagBalls();
-    this->player.update(this->window);
-    this->updateCollision();
-    this->updateGui();
+    if(this->endGame == false)
+    {
+        this->spawnSwagBalls();
+        this->updatePlayer();
+        this->updateCollision();
+        this->updateGui();
+    }
 }
 
 void Game::renderGui(sf::RenderTarget* target)
@@ -153,6 +184,9 @@ void Game::render()
 
     //Render GUI
     this->renderGui(this->window);
+
+    if(this->endGame)
+        this->window->draw(this->endGameText);
 
     this->window->display();
 }

@@ -18,6 +18,7 @@ class Game
         ~Game();
 
         //Getters
+        const bool& getEndGame() const;
 
         //Setters
 
@@ -26,6 +27,8 @@ class Game
         void pollEvents();
 
         void spawnSwagBalls();
+        const int randomizeType() const;
+        void updatePlayer();
         void updateCollision();
         void updateGui();
         void update();
@@ -45,6 +48,7 @@ class Game
 
         sf::Font font;
         sf::Text guiText;
+        sf::Text endGameText;
 
         std::vector<SwagBalls> swagBall_list;
         float spawnTimerMax;
