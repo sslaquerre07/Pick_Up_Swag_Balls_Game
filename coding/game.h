@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <ctime>
+#include <vector>
 
 #include "Player.h"
 #include "SwagBalls.h"
@@ -23,6 +24,7 @@ class Game
         const bool running();
         void pollEvents();
 
+        void spawnSwagBalls();
         void update();
         void render();
 
@@ -33,6 +35,11 @@ class Game
         sf::Event sfmlEvent;
 
         Player player;
+
+        std::vector<SwagBalls> swagBall_list;
+        float spawnTimerMax;
+        float spawnTimer;
+        int maxSwagBalls;
 
         //private Functions
         void initWindow();

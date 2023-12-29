@@ -3,6 +3,9 @@
 void Game::initVariables()
 {
     this->endGame = false;
+    this->spawnTimerMax = 10.f;
+    this->spawnTimer = this->spawnTimerMax;
+    this->maxSwagBalls = 10;
 }
 
 void Game::initWindow()
@@ -48,10 +51,26 @@ void Game::pollEvents()
     }
 }
 
+void Game::spawnSwagBalls()
+{
+    if(this->spawnTimer < this->spawnTimerMax)
+        this->spawnTimer += 1.f;
+    else
+    {
+        if(this->swagBall_list.size() < this->maxSwagBalls)
+        {
+            this->spawnTimer = 0.f;
+            this->swagBall_list.push_back(SwagBalls(*this->window));
+        }
+    }
+}
+
 void Game::update()
 {
     this->pollEvents();
 
+
+    this->spawnSwagBalls();
     this->player.update(this->window);
 }
 
@@ -62,6 +81,11 @@ void Game::render()
 
     //Render Stuff
     this->player.render(this->window);
+
+    for(auto i:this->swagBall_list)
+    {
+        i.render(*this->window);
+    }
 
     this->window->display();
 }

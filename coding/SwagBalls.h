@@ -7,7 +7,7 @@ class SwagBalls
 {
     public:
         //Constructors and Destructors
-        SwagBalls();
+        SwagBalls(const sf::RenderWindow& window);
         ~SwagBalls();
 
         //Functions
@@ -18,7 +18,7 @@ class SwagBalls
         sf::CircleShape shape;
 
         //private Functions
-        void initShape();
+        void initShape(const sf::RenderWindow& window);
 
 };
 
