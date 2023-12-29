@@ -5,6 +5,7 @@
 #include <iostream>
 #include <ctime>
 #include <vector>
+#include <sstream>
 
 #include "Player.h"
 #include "SwagBalls.h"
@@ -26,7 +27,10 @@ class Game
 
         void spawnSwagBalls();
         void updateCollision();
+        void updateGui();
         void update();
+
+        void renderGui(sf::RenderTarget* target);
         void render();
 
     private:
@@ -50,6 +54,8 @@ class Game
         //private Functions
         void initWindow();
         void initVariables();
+        void initFont();
+        void initText();
 
 
 };

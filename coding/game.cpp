@@ -16,12 +16,31 @@ void Game::initWindow()
     this->window->setFramerateLimit(144);
 }
 
+void Game::initFont()
+{
+    if(!this->font.loadFromFile("Fonts/arial.ttf"))
+    {
+       std::cout << "Font failed to load"; 
+    }
+}
+
+void Game::initText()
+{
+    this->guiText.setFont(this->font);
+    this->guiText.setFillColor(sf::Color::White);
+    this->guiText.setCharacterSize(30);
+    this->guiText.setString("test"); 
+
+}
+
 
 //Constructors and Destructors
 Game::Game()
 {
     this->initVariables();
     this->initWindow();
+    this->initFont();
+    this->initText();
 }
 
 Game::~Game()
@@ -75,8 +94,17 @@ void Game::updateCollision()
         {
             //More to be added in later, such as point gain.
             this->swagBall_list.erase(this->swagBall_list.begin() + i);
+            this->points++;
         }
     }
+}
+
+void Game::updateGui()
+{
+    std::stringstream ss;
+    ss << "Points: " << this->points;
+
+    this->guiText.setString(ss.str());
 }
 
 void Game::update()
@@ -87,6 +115,12 @@ void Game::update()
     this->spawnSwagBalls();
     this->player.update(this->window);
     this->updateCollision();
+    this->updateGui();
+}
+
+void Game::renderGui(sf::RenderTarget* target)
+{
+   target->draw(this->guiText); 
 }
 
 void Game::render()
@@ -101,6 +135,9 @@ void Game::render()
     {
         i.render(*this->window);
     }
+
+    //Render GUI
+    this->renderGui(this->window);
 
     this->window->display();
 }
