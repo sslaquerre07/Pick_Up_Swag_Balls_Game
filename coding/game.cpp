@@ -80,6 +80,7 @@ void Game::spawnSwagBalls()
         if(this->swagBall_list.size() < this->maxSwagBalls)
         {
             this->spawnTimer = 0.f;
+            //Picks from the enumerated list in SwagBallTypes, NROFTYPEs just gives you the number of types available
             this->swagBall_list.push_back(SwagBalls(*this->window, rand()%SwagBallTypes::NROFTYPEs));
         }
     }
