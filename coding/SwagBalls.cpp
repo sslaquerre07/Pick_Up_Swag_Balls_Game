@@ -10,6 +10,11 @@ SwagBalls::~SwagBalls()
 
 }
 
+const sf::CircleShape& SwagBalls::getShape() const
+{
+    return this->shape;
+}
+
 void SwagBalls::initShape(const sf::RenderWindow& window)
 {
     this->shape.setRadius(static_cast<float>(rand() %10+10));

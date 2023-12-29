@@ -25,6 +25,7 @@ class Game
         void pollEvents();
 
         void spawnSwagBalls();
+        void updateCollision();
         void update();
         void render();
 
@@ -35,6 +36,11 @@ class Game
         sf::Event sfmlEvent;
 
         Player player;
+
+        int points;
+
+        sf::Font font;
+        sf::Text guiText;
 
         std::vector<SwagBalls> swagBall_list;
         float spawnTimerMax;

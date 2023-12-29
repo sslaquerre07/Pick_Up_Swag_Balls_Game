@@ -6,6 +6,7 @@ void Game::initVariables()
     this->spawnTimerMax = 10.f;
     this->spawnTimer = this->spawnTimerMax;
     this->maxSwagBalls = 10;
+    this->points = 0;
 }
 
 void Game::initWindow()
@@ -65,6 +66,19 @@ void Game::spawnSwagBalls()
     }
 }
 
+void Game::updateCollision()
+{
+    //Check the collision
+    for(size_t i= 0;i<swagBall_list.size();i++)
+    {
+        if(this->player.getShape().getGlobalBounds().intersects(this->swagBall_list[i].getShape().getGlobalBounds()))
+        {
+            //More to be added in later, such as point gain.
+            this->swagBall_list.erase(this->swagBall_list.begin() + i);
+        }
+    }
+}
+
 void Game::update()
 {
     this->pollEvents();
@@ -72,6 +86,7 @@ void Game::update()
 
     this->spawnSwagBalls();
     this->player.update(this->window);
+    this->updateCollision();
 }
 
 void Game::render()

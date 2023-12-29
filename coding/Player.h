@@ -7,6 +7,8 @@ class Player
 {
     private:
         sf::RectangleShape shape;
+        int hp;
+        int hpMax;
 
         float movementSpeed;
 
@@ -16,6 +18,8 @@ class Player
     public:
         Player(float x = 0.f, float y = 0.f);
         ~Player();
+
+        const sf::RectangleShape& getShape() const;
 
         void updateInput();
         void updateWindowBoundsCollision(const sf::RenderTarget* target);
