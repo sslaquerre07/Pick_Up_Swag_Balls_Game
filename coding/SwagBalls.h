@@ -3,14 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 
+enum SwagBallTypes {DEFAULT = 0, DAMAGING, HEALING, NROFTYPEs};
+
 class SwagBalls
 {
     public:
         //Constructors and Destructors
-        SwagBalls(const sf::RenderWindow& window);
+        SwagBalls(const sf::RenderWindow& window, int type);
         ~SwagBalls();
 
         const sf::CircleShape& getShape() const;
+        const int& getType() const;
 
         //Functions
         void update();
@@ -18,6 +21,7 @@ class SwagBalls
 
     private:
         sf::CircleShape shape;
+        int type;
 
         //private Functions
         void initShape(const sf::RenderWindow& window);

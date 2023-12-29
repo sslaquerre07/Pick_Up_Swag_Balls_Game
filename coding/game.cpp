@@ -80,7 +80,7 @@ void Game::spawnSwagBalls()
         if(this->swagBall_list.size() < this->maxSwagBalls)
         {
             this->spawnTimer = 0.f;
-            this->swagBall_list.push_back(SwagBalls(*this->window));
+            this->swagBall_list.push_back(SwagBalls(*this->window, rand()%SwagBallTypes::NROFTYPEs));
         }
     }
 }
@@ -92,9 +92,22 @@ void Game::updateCollision()
     {
         if(this->player.getShape().getGlobalBounds().intersects(this->swagBall_list[i].getShape().getGlobalBounds()))
         {
-            //More to be added in later, such as point gain.
+            switch(this->swagBall_list[i].getType())
+            {
+                case SwagBallTypes::DEFAULT:
+                    //Add Points
+                    this->points++;
+                    break;
+                case SwagBallTypes::DAMAGING:
+                    this->player.takeDamage(1);
+                    break;
+                case SwagBallTypes::HEALING:
+                    this->player.gainHealth(1);
+                    break;
+            }
+
+            //Remove the ball
             this->swagBall_list.erase(this->swagBall_list.begin() + i);
-            this->points++;
         }
     }
 }
@@ -102,7 +115,8 @@ void Game::updateCollision()
 void Game::updateGui()
 {
     std::stringstream ss;
-    ss << "Points: " << this->points;
+    ss << "Points: " << this->points << "\n"
+        << "Health: " << this->player.getHp() << "/" << this->player.getHpMax() << "\n";
 
     this->guiText.setString(ss.str());
 }
